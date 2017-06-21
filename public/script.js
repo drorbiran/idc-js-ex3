@@ -26,12 +26,3 @@ $("#login").click(function(){
     });
 });
 
-function getList(){
-    $.get("/items",function(data,status){
-        data.forEach(function(event){
-            console.log(event);
-            $("#eventsArray").append("<li>" + JSON.stringify(event) + "</li>");
-        })
-    });
-}
-

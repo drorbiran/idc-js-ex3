@@ -6,10 +6,14 @@
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
 
 </head>
-<body onload="getList()">
+<body>
 <h1>An amazing Events screen</h1>
-<div id="eventsArray">
-</div>
+
+<!-- print all events -->
+<% events.forEach(function(event){ %>
+<li><%= JSON.stringify(event) %></li>
+<% }); %>
+
 <script type="text/javascript" src="/public/script.js"></script>
 </body>
 </html>

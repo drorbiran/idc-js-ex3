@@ -77,7 +77,7 @@ app.post("/login/:username/:password",function(req,res,next){
         if ((users[i].username === username) && (users[i].password === password)){
             founduser = true;
             console.log("user found");
-            res.render("events");
+            res.sendStatus(200);
             break;
         }
     }
@@ -90,7 +90,7 @@ app.post("/login/:username/:password",function(req,res,next){
 
 app.get("/events", function(req,res){
     console.log("here");
-    res.render("events");
+    res.render("events", {events: events});
 });
 
 
