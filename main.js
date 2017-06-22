@@ -35,6 +35,15 @@ var events = [
     }
 ];
 
+function Event(name, time, location,food,img) {
+    this.name = name;
+    this.time = time;
+    this.location = location;
+    this.food = food;
+    this.img = img;
+    this.id = guid();
+}
+
 //All users
 var users = [
     {
