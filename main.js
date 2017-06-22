@@ -103,6 +103,11 @@ app.post("/item/", function(req,res){
     res.redirect("/events");
 });
 
+//returns all the items as an array
+app.get("/items",function(req,res,next){
+    res.send(events);
+});
+
 app.get("/events", function(req,res){
     console.log("loading events page");
     res.render("events", {events: events});
@@ -146,23 +151,31 @@ app.delete("/item/:id",function(req,res,next){
     }
 });
 
-//returns all the items as an array
-app.get("/items",function(req,res,next){
-    res.send(events);
+
+// overwrite the properties values of the item with the same id or 404 if no such an item
+app.put("/item/", function(req,res,next){
+    let updatedEvent = req.body;
+    let id = updatedEvent.id;
+    let found = false;
+    events.forEach(function(event){
+        if (id === event.id){
+            event.name = updatedEvent.name;
+            event.time = updatedEvent.time;
+            event.location = updatedEvent.location;
+            event.food = updatedEvent.food;
+            event.img = updatedEvent.img;
+            res.send("event " + id + " was replaced");
+            found = true;
+        }
+    });
+    if (!found) {
+        next();
+    }
 });
 
 //upload home page
 app.get("/public/hello.html", function(req,res,next){
     res.render("hello");
-})
-
-// overwrite the properties values of the item with the same id or 404 if no such an item
-app.post("/item/", function(req,res){
-    var data = req.body;
-    data.id = guid();
-    console.log(data);
-    events.push(data);
-    res.send("cool");
 });
 
 //upload home page
