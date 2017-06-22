@@ -96,9 +96,15 @@ app.post("/login/:username/:password",function(req,res,next){
     }
 });
 
+app.post("/item/", function(req,res){
+    let newEvent = req.body;
+    newEvent.id = guid();
+    events.push(newEvent);
+    res.redirect("/events");
+});
 
 app.get("/events", function(req,res){
-    console.log("here");
+    console.log("loading events page");
     res.render("events", {events: events});
 });
 
