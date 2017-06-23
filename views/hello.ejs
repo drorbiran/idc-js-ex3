@@ -30,23 +30,19 @@
     }
 </style>
 
-<h1 align="center" style="color:#8eb2a8" class="title">IDCFood</h1>
-
-<div></div>
-<div></div>
+<h1 align="center" style="color:#8eb2a8" class="title">IDC - Free Food 24/7</h1>
 
 <!-- Login text fields -->
 <div class="container">
-    <form action="#">
         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
             <input class="mdl-textfield__input" type="text" id="username">
             <label class="mdl-textfield__label" for="username">Username</label>
         </div>
 
         <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-            <input class="mdl-textfield__input" type="text" pattern="-?[0-9]*(\.[0-9]+)?" id="password">
+            <input class="mdl-textfield__input" type="text" id="password">
             <label class="mdl-textfield__label" for="password">Password</label>
-            <span class="mdl-textfield__error">Input is not a number!</span>
+            <span id="loginErrorMessage" class="mdl-textfield__error">Try again</span>
         </div>
 
         <div></div>
@@ -65,7 +61,6 @@
                 Login
             </button>
         </div>
-    </form>
 </div>
 
 

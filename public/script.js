@@ -6,10 +6,14 @@ $("#register").click(function(){
    let password = $("#password").val();
    $.post("/register/"+ username + "/" + password, function(data,status){
        console.log("user was added");
-       $("#info").text("You were successfully registered please login");
+       $("#loginErrorMessage").text("You were successfully registered please login");
+       $("#loginErrorMessage").css("color","#4caf50");
+       $("#loginErrorMessage").css("visibility","visible");
    }).fail(function(){
-       $("#info").text("User name already taken");
-   });
+       $("#loginErrorMessage").text("User name already taken");
+       $("#loginErrorMessage").css("visibility","visible");
+       setTimeout(()=>{$("#loginErrorMessage").css("visibility","hidden")}, 3000);
+   })
 });
 
 
@@ -22,6 +26,8 @@ $("#login").click(function(){
         console.log("correct username and password");
         window.location.replace("/events");
     }).fail(function(){
-        $("#info").text("User not found Please try again");
+        $("#loginErrorMessage").text("Wrong user name or password");
+        $("#loginErrorMessage").css("visibility","visible");
+        setTimeout(()=>{$("#loginErrorMessage").css("visibility","hidden")}, 3000);
     });
 });
