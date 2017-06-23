@@ -23,29 +23,27 @@ app.listen(3000,function(){
 var events = [
     {
         name: "IDC milioniars event",
-        time: "5/7/17 18:00",
-        location: "A110",
-        food: "drinks and pizza",
-        img: "http://s.eatthis-cdn.com/media/images/ext/842849976/greasy-fast-food.jpg",
+        time: "Fri, 23 Jun 2017 16:56:03 GMT",
+        location: "CB102",
+        food: "donates",
+        img: "http://www.adeleruns.com/wp-content/uploads/2017/05/Angel-Food-High-Res-6766.jpeg",
         id: "0"
     },
     {
         name: "name test",
-        time: "5/7/17 18:00",
+        time: "Sun, 5 Jun 2017 18:00:03 GMT",
         location: "where test",
-        food: "bla ble drinks and pizza",
+        food: "drinks and pizza",
         img: "http://s.eatthis-cdn.com/media/images/ext/842849976/greasy-fast-food.jpg",
         id: "1"
     }
 ];
 
-function Event(name, time, location,food,img) {
+function Event(name, location, food, img) {
     this.name = name;
-    this.time = time;
     this.location = location;
     this.food = food;
     this.img = img;
-    this.id = guid();
 }
 
 //All users
@@ -59,11 +57,11 @@ var users = [
 
 //add user/password to the user-list
 app.post("/register/:username/:password",function(req,res,next){
-    let username = req.params.username;
-    let password = req.params.password;
+    var username = req.params.username;
+    var password = req.params.password;
     console.log("username = " + username);
     console.log("password = " + password);
-    let userExist = false;
+    var userExist = false;
     for(i = 0; i < users.length; i++){
         if (users[i].username === username){
             userExist = true;
@@ -71,10 +69,10 @@ app.post("/register/:username/:password",function(req,res,next){
         }
     }
     if (userExist){
-        console.log("user exists");
+        console.log("user already exists");
         res.sendStatus(500);
     } else {
-        console.log("user does not exists");
+        console.log("User was successfully registered");
         users.push({username: username, password: password});
         res.sendStatus(200);
     }
@@ -82,18 +80,17 @@ app.post("/register/:username/:password",function(req,res,next){
 
 //login an go to the events page
 app.post("/login/:username/:password",function(req,res,next){
-    let username = req.params.username;
-    let password = req.params.password;
-    let foundUser = false;
+    var username = req.params.username;
+    var password = req.params.password;
+    var foundUser = false;
     for(i = 0; i < users.length; i++){
         if ((users[i].username === username) && (users[i].password === password)){
             foundUser = true;
-            console.log("user found");
             let uid = guid();
             //send uid cookie with max time of 60 min
             res.cookie('uid',uid, { maxAge: 36000 });
             users[i].uid = uid;
-            console.log("user logged in =" + users[i]);
+            console.log("user logged in =" + users[i].toString());
             res.sendStatus(200);
             break;
         }
@@ -112,6 +109,7 @@ app.use("/", function(req,res,next){
         users.forEach(function(user){
             if(cookieUid === user.uid){
                 cookieFound = true;
+                console.log("verified cookie");
             }
         });
     }
@@ -126,7 +124,8 @@ app.use("/", function(req,res,next){
 app.post("/item/", function(req,res){
     let newEvent = req.body;
     newEvent.id = guid();
-    events.push(newEvent);
+    newEvent.time = generateTimeStamp();
+    events.unshift(newEvent);
     res.redirect("/events");
 });
 
@@ -147,7 +146,7 @@ app.get("/events", function(req,res){
 app.get("/item/:id", function(req,res,next){
     var id = req.params.id;
     console.log("id to return =" + id);
-    let found = false;
+    var found = false;
     for(i = 0; i < events.length; i++) {
         var event = events[i];
         if(event.id === id) {
@@ -165,7 +164,7 @@ app.get("/item/:id", function(req,res,next){
 app.delete("/item/:id",function(req,res,next){
     var id = req.params.id;
     console.log("id to delete =" + id);
-    let found = false;
+    var found = false;
     for(i = 0; i < events.length; i++) {
         var event = events[i];
         if(event.id == id) {
@@ -183,13 +182,13 @@ app.delete("/item/:id",function(req,res,next){
 
 // overwrite the properties values of the item with the same id or 404 if no such an item
 app.put("/item/", function(req,res,next){
-    let updatedEvent = req.body;
-    let id = updatedEvent.id;
-    let found = false;
+    var updatedEvent = req.body;
+    var id = updatedEvent.id;
+    var found = false;
     events.forEach(function(event){
         if (id === event.id){
             event.name = updatedEvent.name;
-            event.time = updatedEvent.time;
+            event.time = generateTimeStamp();
             event.location = updatedEvent.location;
             event.food = updatedEvent.food;
             event.img = updatedEvent.img;
@@ -223,4 +222,11 @@ function guid() {
     }
     return s4() + s4() + '-' + s4() + '-' + s4() + '-' +
         s4() + '-' + s4() + s4() + s4();
+}
+
+//create timestamp
+function generateTimeStamp() {
+    var date = new Date().toUTCString();
+    console.log("Date is:" + date)
+    return date;
 }

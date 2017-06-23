@@ -25,4 +25,3 @@ $("#login").click(function(){
         $("#info").text("User not found Please try again");
     });
 });
-
