@@ -51,6 +51,7 @@ function Event(name, time, location,food,img) {
 //All users
 var users = [
     {
+        uid: "1",
         username : "admin",
         password: "1234"
     }
@@ -83,22 +84,43 @@ app.post("/register/:username/:password",function(req,res,next){
 app.post("/login/:username/:password",function(req,res,next){
     let username = req.params.username;
     let password = req.params.password;
-    console.log("username = " + username);
-    console.log("password = " + password);
-    let founduser = false;
+    let foundUser = false;
     for(i = 0; i < users.length; i++){
         if ((users[i].username === username) && (users[i].password === password)){
-            founduser = true;
+            foundUser = true;
             console.log("user found");
-            res.cookie('uid',guid());
+            let uid = guid();
+            //send uid cookie with max time of 60 min
+            res.cookie('uid',uid, { maxAge: 36000 });
+            users[i].uid = uid;
+            console.log("user logged in =" + users[i]);
             res.sendStatus(200);
             break;
         }
     }
-    if (!founduser){
+    if (!foundUser){
         console.log("user or password where not found");
         res.sendStatus(500);
     }
+});
+
+//check uid
+app.use("/", function(req,res,next){
+    let cookieUid = req.cookies.uid;
+    let cookieFound = false;
+    if (cookieUid){
+        users.forEach(function(user){
+            if(cookieUid === user.uid){
+                cookieFound = true;
+            }
+        });
+    }
+    if (!cookieFound){
+        res.render("hello");
+    } else {
+        next();
+    }
+
 });
 
 app.post("/item/", function(req,res){
@@ -114,6 +136,7 @@ app.get("/items",function(req,res,next){
 });
 
 app.get("/events", function(req,res){
+
     console.log("loading events page");
     console.log("user uid cookie = " + req.cookies.uid);
     res.render("events", {events: events});
@@ -181,11 +204,6 @@ app.put("/item/", function(req,res,next){
 
 //upload home page
 app.get("/public/hello.html", function(req,res,next){
-    res.render("hello");
-});
-
-//upload home page
-app.get("/", function(req,res,next){
     res.render("hello");
 });
 
