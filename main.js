@@ -1,6 +1,8 @@
 var express = require("express");
 var path = require('path');
 var bodyParser = require('body-parser');
+var cookieParser = require('cookie-parser');
+
 
 var app = express();
 
@@ -9,6 +11,8 @@ app.use('/public',express.static(path.join(__dirname, 'public')));
 app.set("view engine", "ejs");
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
+app.use(cookieParser());
+
 
 //listen on port 3000
 app.listen(3000,function(){
@@ -86,6 +90,7 @@ app.post("/login/:username/:password",function(req,res,next){
         if ((users[i].username === username) && (users[i].password === password)){
             founduser = true;
             console.log("user found");
+            res.cookie('uid',guid());
             res.sendStatus(200);
             break;
         }
@@ -110,6 +115,7 @@ app.get("/items",function(req,res,next){
 
 app.get("/events", function(req,res){
     console.log("loading events page");
+    console.log("user uid cookie = " + req.cookies.uid);
     res.render("events", {events: events});
 });
 
