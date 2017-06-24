@@ -77,3 +77,6 @@ div.desc {
     color: #00bfa5;
 }
 
+.material-icons.md-dark { color: rgba(0, 0, 0, 0.54); }
+.material-icons.md-dark.md-inactive { color: rgba(0, 0, 0, 0.26); }
+.material-icons {padding-right: 12px}

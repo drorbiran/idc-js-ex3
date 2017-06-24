@@ -57,11 +57,11 @@ var users = [
 
 //add user/password to the user-list
 app.post("/register/:username/:password",function(req,res,next){
-    var username = req.params.username;
-    var password = req.params.password;
+    let username = req.params.username;
+    let password = req.params.password;
     console.log("username = " + username);
     console.log("password = " + password);
-    var userExist = false;
+    let userExist = false;
     for(i = 0; i < users.length; i++){
         if (users[i].username === username){
             userExist = true;
@@ -80,17 +80,17 @@ app.post("/register/:username/:password",function(req,res,next){
 
 //login an go to the events page
 app.post("/login/:username/:password",function(req,res,next){
-    var username = req.params.username;
-    var password = req.params.password;
-    var foundUser = false;
+    let username = req.params.username;
+    let password = req.params.password;
+    let foundUser = false;
     for(i = 0; i < users.length; i++){
         if ((users[i].username === username) && (users[i].password === password)){
             foundUser = true;
             let uid = guid();
             //send uid cookie with max time of 60 min
-            res.cookie('uid',uid, { maxAge: 36000 });
+            res.cookie('uid',uid, { maxAge: 3.6e+6 });
             users[i].uid = uid;
-            console.log("user logged in =" + users[i].toString());
+            console.log("user logged in =" + users[i].username);
             res.sendStatus(200);
             break;
         }
@@ -134,19 +134,39 @@ app.get("/items",function(req,res,next){
     res.send(events);
 });
 
-app.get("/events", function(req,res){
+app.delete("/item/:id",function(req,res,next){
+    let id = req.params.id;
+    console.log("id to delete =" + id);
+    let found = false;
+    for(i = 0; i < events.length; i++) {
+        let event = events[i];
+        if(event.id == id) {
+            found = true;
+            events.splice(i, 1);
+            console.log(events);
+            console.log("deleted event id = " + id);
+            break;
+        }
+    }
+    if (!found){
+        next();
+    } else {
+        res.redirect(res.get("/events"));
+    }
+});
 
+app.use("/events", function(req,res){
+    console.log(events);
     console.log("loading events page");
-    console.log("user uid cookie = " + req.cookies.uid);
     res.render("events", {events: events});
 });
 
 
 //returns the item with the right id or 404 if no such an item
 app.get("/item/:id", function(req,res,next){
-    var id = req.params.id;
+    let id = req.params.id;
     console.log("id to return =" + id);
-    var found = false;
+    let found = false;
     for(i = 0; i < events.length; i++) {
         var event = events[i];
         if(event.id === id) {
@@ -159,26 +179,6 @@ app.get("/item/:id", function(req,res,next){
         next();
     }
 });
-
-// delete the item with the right id or 404 if no such an item
-app.delete("/item/:id",function(req,res,next){
-    var id = req.params.id;
-    console.log("id to delete =" + id);
-    var found = false;
-    for(i = 0; i < events.length; i++) {
-        var event = events[i];
-        if(event.id == id) {
-            found = true;
-            events.splice(i, 1);
-            res.send("deleted event id " + id);
-            break;
-        }
-    }
-    if (!found){
-        next();
-    }
-});
-
 
 // overwrite the properties values of the item with the same id or 404 if no such an item
 app.put("/item/", function(req,res,next){

@@ -12,55 +12,45 @@
 <h1 align="center" style="color:#8eb2a8" class="title">IDCFood</h1>
 
 <div class="allContainers">
-
-    <span class="container">
+    <!-- add event form -->
+    <div class="container">
         <form action="/item/" method="post">
-
-        <div class="wideField">
-            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                <input class="mdl-textfield__input" name="name" type="text">
-                <label class="mdl-textfield__label" for="name">Event name</label>
+            <div class="wideField">
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                    <input class="mdl-textfield__input" name="name" type="text">
+                    <label class="mdl-textfield__label" for="name">Event name</label>
+                </div>
             </div>
-        </div>
-
-        <div class="thinField">
-            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                <input class="mdl-textfield__input" name="location" type="text">
-                <label class="mdl-textfield__label" for="location">Where?</label>
+            <div class="thinField">
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                    <input class="mdl-textfield__input" name="location" type="text">
+                    <label class="mdl-textfield__label" for="location">Where?</label>
+                </div>
             </div>
-        </div>
-        <div class="wideField">
-            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                <input class="mdl-textfield__input" name="food" type="text">
-                <label class="mdl-textfield__label" for="food">What kind of food?</label>
+            <div class="wideField">
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                    <input class="mdl-textfield__input" name="food" type="text">
+                    <label class="mdl-textfield__label" for="food">What kind of food?</label>
+                </div>
             </div>
-        </div>
-        <div class="wideField">
-            <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                <input class="mdl-textfield__input" name="img" type="text">
-                <label class="mdl-textfield__label" for="img">Add and image url</label>
+            <div class="wideField">
+                <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
+                    <input class="mdl-textfield__input" name="img" type="text">
+                    <label class="mdl-textfield__label" for="img">Add and image url</label>
+                </div>
             </div>
-        </div>
 
-        <div class="addBtn">
-            <button class="addBtn mdl-button mdl-js-button mdl-button--raised">
-            Add Event
-            </button>
-        </div>
+            <div class="addBtn">
+                <button class="addBtn mdl-button mdl-js-button mdl-button--raised">
+                    Add Event
+                </button>
+            </div>
+        </form>
+    </div>
 
-    </form>
-    </span>
-
-    <span class="rightContainer">
-
-        <div class="deleteBtn">
-            <button class="mdl-button mdl-js-button mdl-button--raised">
-            Delete selected events
-            </button>
-        </div>
-
+    <div class="rightContainer">
         <div class="tableContainer">
-           <table class="tableSize mdl-data-table mdl-js-data-table mdl-shadow--1dp mdl-data-table--selectable">
+           <table class="tableSize mdl-data-table mdl-js-data-table mdl-shadow--1dp">
             <thead>
                 <tr>
                     <th class="mdl-data-table__cell--non-numeric">Event name</th>
@@ -68,19 +58,25 @@
                     <th class="mdl-data-table__cell--non-numeric">Location</th>
                     <th class="mdl-data-table__cell--non-numeric">Food Type</th>
                     <th class="mdl-data-table__cell--non-numeric">Image</th>
+                    <th class="mdl-data-table__cell--non-numeric"></th>
                 </tr>
                 </thead>
                 <tbody>
                 <% events.forEach(function(event){ %>
                 <tr>
                     <td class="mdl-data-table__cell--non-numeric"><%= event.name %></td>
-                    <td class ="mdl-data-table__cell--non-numeric"><%= event.time %></td>
+                    <td class="mdl-data-table__cell--non-numeric"><%= event.time %></td>
                     <td class="mdl-data-table__cell--non-numeric"><%= event.location %></td>
                     <td class="mdl-data-table__cell--non-numeric"><%= event.food %></td>
                     <td class="mdl-data-table__cell--non-numeric">
-                        <a href="<%= event.img %>" class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored">
-                            <i class="material-icons md-light">image</i>
+                        <a href="<%= event.img %>"
+                           class="mdl-button mdl-js-button mdl-button--icon mdl-button--colored">
+                            <i class="material-icons md-dark">image</i>
                         </a>
+                    </td>
+                    <td>
+                        <i class="material-icons md-dark">mode_edit</i>
+                        <i id="<%= event.id%>" class="material-icons md-dark delete">delete</i>
                     </td>
                 </tr>
                 <% }); %>
@@ -97,7 +93,7 @@
         </div>
         <% }); %>
 
-    </span>
+    </div>
 
 </div>
 

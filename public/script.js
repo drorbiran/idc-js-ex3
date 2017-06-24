@@ -33,3 +33,16 @@ $("#login").click(function(){
         setTimeout(()=>{$("#loginErrorMessage").css("visibility","hidden")}, 3000);
     });
 });
+
+//handle click delete
+$(".delete").on("click",()=>{
+    let id = event.target.id;
+    $.ajax({
+        url: "/item/"+ id,
+        type: "DELETE",
+        success: function(result) {
+            console.log("event id " + id + " was deleted");
+            location.reload();
+        }
+    });
+});
