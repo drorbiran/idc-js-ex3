@@ -7,10 +7,11 @@ $("#register").click(function(){
    $.post("/register/"+ username + "/" + password, function(data,status){
        console.log("user was added");
        $("#loginErrorMessage").text("You were successfully registered please login");
-       $("#loginErrorMessage").css("color","#4caf50");
+       $("#loginErrorMessage").css("color","#4CAF50");
        $("#loginErrorMessage").css("visibility","visible");
    }).fail(function(){
        $("#loginErrorMessage").text("User name already taken");
+       $("#loginErrorMessage").css("color","#F44336");
        $("#loginErrorMessage").css("visibility","visible");
        setTimeout(()=>{$("#loginErrorMessage").css("visibility","hidden")}, 3000);
    })
@@ -27,6 +28,7 @@ $("#login").click(function(){
         window.location.replace("/events");
     }).fail(function(){
         $("#loginErrorMessage").text("Wrong user name or password");
+        $("#loginErrorMessage").css("color","#F44336");
         $("#loginErrorMessage").css("visibility","visible");
         setTimeout(()=>{$("#loginErrorMessage").css("visibility","hidden")}, 3000);
     });
