@@ -29,38 +29,40 @@
     }
 </style>
     <div class="container">
-        <form action="/item/" method="post">
             <div class="wideField">
+                <div id="eventId" style="visibility:hidden;"><%= event.id%></div>
                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                    <input class="mdl-textfield__input" name="name" type="text">
-                    <label class="mdl-textfield__label" for="name">Event name</label>
+                    <input class="mdl-textfield__input" name="name" type="text" value="<%= event.name %>">
+                    <label class="mdl-textfield__label" for="name">Name</label>
                 </div>
             </div>
             <div class="thinField">
                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                    <input class="mdl-textfield__input" name="location" type="text">
-                    <label class="mdl-textfield__label" for="location">Where?</label>
+                    <input class="mdl-textfield__input" name="location" type="text" value="<%= event.location %>">
+                    <label class="mdl-textfield__label" for="location">Location</label>
                 </div>
             </div>
             <div class="wideField">
                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                    <input class="mdl-textfield__input" name="food" type="text">
-                    <label class="mdl-textfield__label" for="food">What kind of food?</label>
+                    <input class="mdl-textfield__input" name="food" type="text" value="<%= event.food %>">
+                    <label class="mdl-textfield__label" for="food">Food</label>
                 </div>
             </div>
             <div class="wideField">
                 <div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label">
-                    <input class="mdl-textfield__input" name="img" type="text">
-                    <label class="mdl-textfield__label" for="img">Add and image url</label>
+                    <input class="mdl-textfield__input" name="img" type="text" value="<%= event.img %>">
+                    <label class="mdl-textfield__label" for="img">Image url</label>
                 </div>
             </div>
 
-            <div class="addBtn">
-                <button class="addBtn mdl-button mdl-js-button mdl-button--raised">
-                    Add Event
+            <div>
+                <button id="cancelBtn" class="addBtn mdl-button mdl-js-button mdl-button--raised">
+                    Cancel
+                </button>
+                <button id="updateBtn" class="addBtn mdl-button mdl-button--raised">
+                    Update
                 </button>
             </div>
-        </form>
     </div>
 
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons"

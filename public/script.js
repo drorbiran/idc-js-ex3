@@ -1,5 +1,7 @@
 console.log("script loaded");
 
+var eventToEdit;
+
 //handle register click
 $("#register").click(function(){
    let username = $("#username").val();
@@ -46,3 +48,37 @@ $(".delete").on("click",()=>{
         }
     });
 });
+
+//handle edit event
+$(".edit").on("click",()=>{
+   let id = event.target.id;
+    window.location.replace("/edit/" + id);
+});
+
+//cancel button
+$("#cancelBtn").on("click", ()=>{
+    window.location.replace("/events");
+
+});
+
+//update button
+$("#updateBtn").on("click", ()=>{
+    console.log("clicked on update");
+    let newEvent = {};
+    newEvent.id = $("#eventId").text();
+    newEvent.time = Date();
+    newEvent.name = $("[name='name']").val();
+    newEvent.location = $("[name='location']").val();
+    newEvent.food = $("[name='food']").val();
+    newEvent.img = $("[name='img']").val();
+    console.log(newEvent);
+    $.ajax({
+        type: "PUT",
+        url: "/item/",
+        data: newEvent,
+        success: function (result) {
+            window.location.replace("/events");
+        }
+    });
+});
+

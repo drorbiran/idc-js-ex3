@@ -136,14 +136,12 @@ app.get("/items",function(req,res,next){
 
 app.delete("/item/:id",function(req,res,next){
     let id = req.params.id;
-    console.log("id to delete =" + id);
     let found = false;
     for(i = 0; i < events.length; i++) {
         let event = events[i];
         if(event.id == id) {
             found = true;
             events.splice(i, 1);
-            console.log(events);
             console.log("deleted event id = " + id);
             break;
         }
@@ -155,14 +153,19 @@ app.delete("/item/:id",function(req,res,next){
     }
 });
 
-app.get("/edit-even/:id",function(req,res){
-    let id = req
-    res.render("edit-event");
+app.get("/edit/:id",function(req,res){
+    let id = req.params.id;
+    let eventToReturn;
+    events.forEach(function(event){
+       if (event.id === id){
+           eventToReturn = event;
+       }
+    });
+    res.render("edit-event", {event: eventToReturn});
 });
 
 app.use("/events", function(req,res){
-    console.log(events);
-    console.log("loading events page");
+    console.log("/events");
     res.render("events", {events: events});
 });
 
@@ -189,9 +192,11 @@ app.get("/item/:id", function(req,res,next){
 
 // overwrite the properties values of the item with the same id or 404 if no such an item
 app.put("/item/", function(req,res,next){
-    var updatedEvent = req.body;
-    var id = updatedEvent.id;
-    var found = false;
+    console.log("PUT /item/");
+    let updatedEvent = req.body;
+    let id = updatedEvent.id;
+    let found = false;
+    console.log("event to update = " + JSON.stringify(updatedEvent));
     events.forEach(function(event){
         if (id === event.id){
             event.name = updatedEvent.name;
