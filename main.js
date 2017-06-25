@@ -155,6 +155,11 @@ app.delete("/item/:id",function(req,res,next){
     }
 });
 
+app.get("/edit-even/:id",function(req,res){
+    let id = req
+    res.render("edit-event");
+});
+
 app.use("/events", function(req,res){
     console.log(events);
     console.log("loading events page");
@@ -179,6 +184,8 @@ app.get("/item/:id", function(req,res,next){
         next();
     }
 });
+
+
 
 // overwrite the properties values of the item with the same id or 404 if no such an item
 app.put("/item/", function(req,res,next){
